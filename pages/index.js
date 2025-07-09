@@ -5,12 +5,28 @@ import { useState } from 'react';
 export default function Home() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Replace this with your API call or Mailchimp integration
-    console.log('Email submitted:', email);
-    setSubmitted(true);
+
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      if (res.ok) {
+        setSubmitted(true);
+      } else {
+        const data = await res.json();
+        setError(data.message || 'Something went wrong');
+      }
+    } catch (err) {
+      setError('Failed to submit. Please try again later.');
+      console.error(err);
+    }
   };
 
   return (
@@ -20,7 +36,9 @@ export default function Home() {
       </Head>
 
       <main className="w-full max-w-xl text-center space-y-8 mx-auto mt-20">
-        <h1 className="text-4xl md:text-5xl font-bold text-primary">Built for Agents.<br />Designed to Close.</h1>
+        <h1 className="text-4xl md:text-5xl font-bold text-primary">
+          Built for Agents.<br />Designed to Close.
+        </h1>
 
         <p className="text-lg text-primary">
           PostAgent is the easiest way to plan, create, and schedule your real estate marketing content.
@@ -46,6 +64,8 @@ export default function Home() {
         ) : (
           <p className="text-primary-600 font-semibold">✅ You're on the list! We'll be in touch soon.</p>
         )}
+
+        {error && <p className="text-red-500 text-sm">{error}</p>}
       </main>
 
       <footer className="text-sm text-muted p-4 bg-white w-full text-center space-y-2 border-t sticky bottom-0">
