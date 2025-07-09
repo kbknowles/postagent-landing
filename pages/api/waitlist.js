@@ -14,7 +14,7 @@ export default async function handler(req, res) {
 
   try {
     await resend.emails.send({
-      from: 'PostAgent <noreply@resend.dev>',
+      from: 'PostAgent <hello@getpostagent.com>',
       to: email,
       cc: ['support@getpostagent.com'],
       subject: "🎉 You're on the PostAgent waitlist!",
@@ -26,10 +26,10 @@ export default async function handler(req, res) {
         <p style="color: #888;">Built for Agents. Designed to Close.</p>
       `,
 });
-
+    console.log('Resend success:', result);
     return res.status(200).json({ message: 'Email sent' });
-  } catch (err) {
-    console.error('Resend Error:', err);
-    return res.status(500).json({ message: 'Failed to send email' });
+  } catch (error) {
+    console.error('Resend error:', error);
+    return res.status(500).json({ message: 'Failed to send email', error: error.message });
   }
 }
