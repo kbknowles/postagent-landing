@@ -7,27 +7,27 @@ export default function Home() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await fetch('/api/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
 
-    try {
-      const res = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-
-      if (res.ok) {
-        setSubmitted(true);
-      } else {
-        const data = await res.json();
-        setError(data.message || 'Something went wrong');
-      }
-    } catch (err) {
-      setError('Failed to submit. Please try again later.');
-      console.error(err);
+    if (!response.ok) {
+      console.error('Failed:', response.status);
+      return;
     }
-  };
+
+    const data = await response.json(); // ✅ Only parse JSON if body exists
+    console.log('Success:', data);
+    setSubmitted(true);
+  } catch (err) {
+    console.error('Error submitting form:', err);
+  }
+};
 
   return (
     <div className="min-h-screen bg-background text-text flex flex-col justify-between px-4">
