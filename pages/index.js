@@ -95,11 +95,12 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="text-sm text-primary p-4 bg-white w-full text-center space-y-2 border-t mt-16">
-        <p>🚀 <strong>PostAgent is coming soon.</strong> Be the first to get early access.</p>
-        <p>🔒 We respect your privacy. Your email will only be used to send updates about PostAgent. No spam. Ever.</p>
-        <p>&copy; {new Date().getFullYear()} PostAgent • Built for Agents. Designed to Close.</p>
-      </footer>
+     <footer className="text-sm text-primary p-4 bg-white w-full text-center space-y-2 border-t mt-16">
+      <p>🚀 <strong>PostAgent™ is coming soon.</strong> Be the first to get early access.</p>
+      <p>🔒 We respect your privacy. Your email will only be used to send updates about PostAgent™. No spam. Ever.</p>
+      <p>&copy; {new Date().getFullYear()} PostAgent™ • Built for Agents. Designed to Close.</p>
+    </footer>
+
 
       {/* Confirmation Modal */}
       {showModal && (
